@@ -114,25 +114,25 @@ def PerformanceList():
     elif onemonthagodate.weekday() == 6:
         onemonthagodate + relativedelta(days = 1)
     
-    finalpricesix = 0
-    finalpricethree = 0
-    finalpriceone = 0
+    pricesix = 0
+    pricethree = 0
+    priceone = 0
 
     for i in range(0, spycolumnsnumber):
         if data['spy']['Date'][i] == sixmonthsagodate:
-            finalpricesix = data['spy']['Close'][i]
+            pricesix = data['spy']['Close'][i]
 
         if data['spy']['Date'][i] == threemonthsagodate:
-            finalpricethree = data['spy']['Close'][i]
+            pricethree = data['spy']['Close'][i]
 
         if data['spy']['Date'][i] == onemonthagodate:
-            finalpriceone = data['spy']['Close'][i]
+            priceone = data['spy']['Close'][i]
 
 
 
-    semiannualperformance = round(GetReturn(finalpricesix, finalprice))
-    threemonthsperformance = round(GetReturn(finalpricethree, finalprice))
-    monthlyperformance = round(GetReturn(finalpriceone, finalprice))
+    semiannualperformance = round(GetReturn(pricesix, finalprice),2)
+    threemonthsperformance = round(GetReturn(pricethree, finalprice),2)
+    monthlyperformance = round(GetReturn(priceone, finalprice),2)
     performancesum = semiannualperformance + threemonthsperformance + monthlyperformance
     
     spy = {
@@ -146,9 +146,14 @@ def PerformanceList():
     etfslist = list()
     etfslist.append(spy)
 
-    sixmonthsagodate = data['vss']['Date'][spycolumnsnumber - 1] - relativedelta(months = 6)
-    threemonthsagodate = data['vss']['Date'][spycolumnsnumber - 1] - relativedelta(months = 3)
-    onemonthagodate = data['vss']['Date'][spycolumnsnumber - 1] - relativedelta(months = 1)
+
+    #VSS
+    initialprice = data['vss']['Close'][0]
+    finalprice = data['vss']['Close'][vsscolumnsnumber - 1]
+
+    sixmonthsagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 1)
 
     if sixmonthsagodate.weekday() == 5:
         sixmonthsagodate -= relativedelta(days = 1)    
@@ -168,18 +173,18 @@ def PerformanceList():
 
     for i in range(0, vsscolumnsnumber):
         if data['vss']['Date'][i] == sixmonthsagodate:
-            finalpricesix = data['vss']['Close'][i]
+            pricesix = data['vss']['Close'][i]
 
         if data['vss']['Date'][i] == threemonthsagodate:
-            finalpricethree = data['vss']['Close'][i]
+            pricethree = data['vss']['Close'][i]
 
         if data['vss']['Date'][i] == onemonthagodate:
-            finalpriceone = data['vss']['Close'][i]
+            priceone = data['vss']['Close'][i]
 
 
-    semiannualperformance = round(GetReturn(finalpricesix, finalprice))
-    threemonthsperformance = round(GetReturn(finalpricethree, finalprice))
-    monthlyperformance = round(GetReturn(finalpriceone, finalprice))
+    semiannualperformance = round(GetReturn(pricesix, finalprice),2)
+    threemonthsperformance = round(GetReturn(pricethree, finalprice),2)
+    monthlyperformance = round(GetReturn(priceone, finalprice),2)
     performancesum = semiannualperformance + threemonthsperformance + monthlyperformance
 
     vss = {
@@ -190,10 +195,12 @@ def PerformanceList():
         'performancesum': performancesum
     }
     etfslist.append(vss)
+
     #SCZ
     initialprice = data['scz']['Close'][0]
-    finalprice = data['scz']['Close'][sczcolumnsnumber - 1]
+    finalprice = data['scz']['Close'][sczcolumnsnumber - 1]    
     result = round(GetReturn(initialprice, finalprice), 2)
+
     sixmonthsagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 6)
     threemonthsagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 3)
     onemonthagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 1)
@@ -216,19 +223,19 @@ def PerformanceList():
 
     for i in range(0, sczcolumnsnumber):
         if data['scz']['Date'][i] == sixmonthsagodate:
-            finalpricesix = data['scz']['Close'][i]
+            pricesix = data['scz']['Close'][i]
 
         if data['scz']['Date'][i] == threemonthsagodate:
-            finalpricethree = data['scz']['Close'][i]
+            pricethree = data['scz']['Close'][i]
 
         if data['scz']['Date'][i] == onemonthagodate:
-            finalpriceone = data['scz']['Close'][i]
+            priceone = data['scz']['Close'][i]
 
 
 
-    semiannualperformance = round(GetReturn(finalpricesix, finalprice))
-    threemonthsperformance = round(GetReturn(finalpricethree, finalprice))
-    monthlyperformance = round(GetReturn(finalpriceone, finalprice))
+    semiannualperformance = round(GetReturn(pricesix, finalprice),2)
+    threemonthsperformance = round(GetReturn(pricethree, finalprice),2)
+    monthlyperformance = round(GetReturn(priceone, finalprice),2)
     performancesum = semiannualperformance + threemonthsperformance + monthlyperformance
 
     scz = {
@@ -239,10 +246,12 @@ def PerformanceList():
         'performancesum': performancesum
     }
     etfslist.append(scz)
+
     #OSMAX
     initialprice = data['osmax']['Close'][0]
     finalprice = data['osmax']['Close'][osmaxcolumnsnumber - 1]
     result = round(GetReturn(initialprice, finalprice), 2)
+
     sixmonthsagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 6)
     threemonthsagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 3)
     onemonthagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 1)
@@ -265,19 +274,18 @@ def PerformanceList():
     
     for i in range(0, osmaxcolumnsnumber):
         if data['osmax']['Date'][i] == sixmonthsagodate:
-            if data['osmax']['Date'][i].weekday() < 5:
-                finalpricesix = data['osmax']['Close'][i]
+            pricesix = data['osmax']['Close'][i]
 
         if data['osmax']['Date'][i] == threemonthsagodate:
-            finalpricethree = data['osmax']['Close'][i]
+            pricethree = data['osmax']['Close'][i]
 
         if data['osmax']['Date'][i] == onemonthagodate:
-            finalpriceone = data['osmax']['Close'][i]
+            priceone = data['osmax']['Close'][i]
 
 
-    semiannualperformance = round(GetReturn(finalpricesix, finalprice))
-    threemonthsperformance = round(GetReturn(finalpricethree, finalprice))
-    monthlyperformance = round(GetReturn(finalpriceone, finalprice))
+    semiannualperformance = round(GetReturn(pricesix, finalprice),2)
+    threemonthsperformance = round(GetReturn(pricethree, finalprice),2)
+    monthlyperformance = round(GetReturn(priceone, finalprice),2)
     performancesum = semiannualperformance + threemonthsperformance + monthlyperformance
 
     osmax = {
@@ -288,10 +296,12 @@ def PerformanceList():
         'performancesum': performancesum
     }
     etfslist.append(osmax)
+
     #TLT
     initialprice = data['tlt']['Close'][0]
     finalprice = data['tlt']['Close'][tltcolumnsnumber - 1]
     result = round(GetReturn(initialprice, finalprice), 2)
+    
     sixmonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 6)
     threemonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 3)
     onemonthagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 1)
@@ -314,18 +324,18 @@ def PerformanceList():
 
     for i in range(0, tltcolumnsnumber):
         if data['tlt']['Date'][i] == sixmonthsagodate:
-            finalpricesix = data['tlt']['Close'][i]
+            pricesix = data['tlt']['Close'][i]
 
         if data['tlt']['Date'][i] == threemonthsagodate:
-            finalpricethree = data['tlt']['Close'][i]
+            pricethree = data['tlt']['Close'][i]
 
         if data['tlt']['Date'][i] == onemonthagodate:
-            finalpriceone = data['tlt']['Close'][i]
+            priceone = data['tlt']['Close'][i]
 
     
-    semiannualperformance = round(GetReturn(initialprice, finalpricesix))
-    threemonthsperformance = round(GetReturn(finalpricethree, finalprice))
-    monthlyperformance = round(GetReturn(finalpriceone, finalprice))
+    semiannualperformance = round(GetReturn(pricesix, finalprice),2)
+    threemonthsperformance = round(GetReturn(pricethree, finalprice),2)
+    monthlyperformance = round(GetReturn(priceone, finalprice),2)
     performancesum = semiannualperformance + threemonthsperformance + monthlyperformance
 
     tlt = {
@@ -340,7 +350,7 @@ def PerformanceList():
     def mySort(e):
         return e['performancesum']
 
-    etfslist.sort(key=mySort)
+    etfslist.sort(reverse=True, key=mySort)
 
     for etf in etfslist:
         print(etf['name'])
