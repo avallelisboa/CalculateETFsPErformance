@@ -14,27 +14,266 @@ from operator import itemgetter
 def clear():  
    os.system('cls' if os.name == 'nt' else 'clear')
 
+def ReadFiles():
+    spy = pd.read_excel("spy.xlsx")
+    vss = pd.read_excel("vss.xlsx")
+    scz = pd.read_excel("scz.xlsx")
+    osmax = pd.read_excel("osmax.xlsx")
+    tlt = pd.read_excel("tlt.xlsx")
+
+    data = {
+        "spy": spy,
+        "vss": vss,
+        "scz": scz,
+        "osmax": osmax,
+        "tlt": tlt
+    }
+    return data
+
 def SaveFiles(dataframes):
     spy = dataframes["spy"]
     vss =  dataframes["vss"]
     scz =  dataframes["scz"]
     osmax = dataframes["osmax"]
     tlt =  dataframes["tlt"]
-
+    
     spy.to_excel("spy.xlsx", sheet_name="SPY_Year_Price")
     vss.to_excel("vss.xlsx", sheet_name="VSS_Year_Price")
     scz.to_excel("scz.xlsx", sheet_name="SCZ_Year_Price")
     osmax.to_excel("osmax.xlsx", sheet_name="OSMAX_Year_Price")
     tlt.to_excel("tlt.xlsx", sheet_name="TLT_Year_Price")
 
+    data = ReadFiles()
+
+    spycolumnsnumber = data['spy'][data['spy'].columns[0]].count()
+    vsscolumnsnumber = data['vss'][data['vss'].columns[0]].count()
+    sczcolumnsnumber = data['scz'][data['scz'].columns[0]].count()
+    osmaxcolumnsnumber = data['osmax'][data['osmax'].columns[0]].count()
+    tltcolumnsnumber = data['tlt'][data['tlt'].columns[0]].count()
+
+
+    #SPY
+    sixmonthsagodate = data['spy']['Date'][spycolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['spy']['Date'][spycolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['spy']['Date'][spycolumnsnumber - 1] - relativedelta(months = 1)
+
+    if sixmonthsagodate.weekday() == 5:
+        sixmonthsagodate -= relativedelta(days = 1)    
+    elif sixmonthsagodate.weekday() == 6:
+        sixmonthsagodate + relativedelta(days = 1)
+    
+    if threemonthsagodate.weekday() == 5:
+        threemonthsagodate -= relativedelta(days = 1)    
+    elif threemonthsagodate.weekday() == 6:
+        sixmonthsagodate + relativedelta(days = 1)
+    
+    if onemonthagodate.weekday() == 5:
+        onemonthagodate -= relativedelta(days = 1)    
+    elif onemonthagodate.weekday() == 6:
+        onemonthagodate + relativedelta(days = 1)
+
+
+
+    for i in range(0, spycolumnsnumber):
+        if data['spy']['Date'][i] == sixmonthsagodate:
+            pricesix = data['spy']['Close'][i]
+
+        if data['spy']['Date'][i] == threemonthsagodate:
+            pricethree = data['spy']['Close'][i]
+
+        if data['spy']['Date'][i] == onemonthagodate:
+            priceone = data['spy']['Close'][i]
+
+
+    spytriplemomentum = {
+        "sixmonthsagoprice": pricesix,
+        "sixmonthsagodate": sixmonthsagodate, 
+        "threemonthsagoprice": pricethree,
+        "threemonthsagodate": threemonthsagodate, 
+        "onemonthagoprice": priceone,
+        "onemonthagodate":onemonthagodate
+    }
+
+    #VSS
+    sixmonthsagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['vss']['Date'][vsscolumnsnumber - 1] - relativedelta(months = 1)
+
+    if sixmonthsagodate.weekday() == 5:
+        sixmonthsagodate -= relativedelta(days = 1)    
+    elif sixmonthsagodate.weekday() == 6:
+        sixmonthsagodate += relativedelta(days = 1)
+    
+    if threemonthsagodate.weekday() == 5:
+        threemonthsagodate -= relativedelta(days = 1)    
+    elif threemonthsagodate.weekday() == 6:
+        threemonthsagodate + relativedelta(days = 1)
+    
+    if onemonthagodate.weekday() == 5:
+        onemonthagodate -= relativedelta(days = 1)    
+    elif onemonthagodate.weekday() == 6:
+        onemonthagodate + relativedelta(days = 1)
+    
+    
+    for i in range(0, vsscolumnsnumber):
+        if data['vss']['Date'][i] == sixmonthsagodate:
+            pricesix = data['spy']['Close'][i]
+
+        if data['vss']['Date'][i] == threemonthsagodate:
+            pricethree = data['spy']['Close'][i]
+
+        if data['vss']['Date'][i] == onemonthagodate:
+            priceone = data['spy']['Close'][i]
+
+
+    vsstriplemomentum = {
+        "sixmonthsagoprice": pricesix,
+        "sixmonthsagodate": sixmonthsagodate, 
+        "threemonthsagoprice": pricethree,
+        "threemonthsagodate":threemonthsagodate, 
+        "onemonthagoprice": priceone,
+        "onemonthagodate": onemonthagodate
+    }
+
+    for i in range(0, sczcolumnsnumber):
+        if data['scz']['Date'][i] == sixmonthsagodate:
+            pricesix = data['spy']['Close'][i]
+
+        if data['scz']['Date'][i] == threemonthsagodate:
+            pricethree = data['spy']['Close'][i]
+
+        if data['scz']['Date'][i] == onemonthagodate:
+            priceone = data['spy']['Close'][i]
+    
+
+    #SCZ
+    sixmonthsagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['scz']['Date'][sczcolumnsnumber - 1] - relativedelta(months = 1)
+
+    if sixmonthsagodate.weekday() == 5:
+        sixmonthsagodate -= relativedelta(days = 1)    
+    elif sixmonthsagodate.weekday() == 6:
+        sixmonthsagodate + relativedelta(days = 1)
+    
+    if threemonthsagodate.weekday() == 5:
+        threemonthsagodate -= relativedelta(days = 1)    
+    elif threemonthsagodate.weekday() == 6:
+        threemonthsagodate + relativedelta(days = 1)
+    
+    if onemonthagodate.weekday() == 5:
+        onemonthagodate -= relativedelta(days = 1)    
+    elif onemonthagodate.weekday() == 6:
+        onemonthagodate + relativedelta(days = 1)
+    
+
+    scztriplemomentum = {
+        "sixmonthsagoprice": pricesix,
+        "sixmonthsagodate": sixmonthsagodate, 
+        "threemonthsagoprice": pricethree,
+        "threemonthsagodate":threemonthsagodate, 
+        "onemonthagoprice": priceone,
+        "onemonthagodate": onemonthagodate
+    }
+
+    for i in range(0, osmaxcolumnsnumber):
+        if data['osmax']['Date'][i] == sixmonthsagodate:
+            pricesix = data['spy']['Close'][i]
+
+        if data['osmax']['Date'][i] == threemonthsagodate:
+            pricethree = data['spy']['Close'][i]
+
+        if data['osmax']['Date'][i] == onemonthagodate:
+            priceone = data['spy']['Close'][i]
+
+    
+    #OSMAX
+    sixmonthsagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['osmax']['Date'][osmaxcolumnsnumber - 1] - relativedelta(months = 1)
+
+    if sixmonthsagodate.weekday() == 5:
+        sixmonthsagodate -= relativedelta(days = 1)    
+    elif sixmonthsagodate.weekday() == 6:
+        sixmonthsagodate + relativedelta(days = 1)
+    
+    if threemonthsagodate.weekday() == 5:
+        threemonthsagodate -= relativedelta(days = 1)    
+    elif threemonthsagodate.weekday() == 6:
+        threemonthsagodate + relativedelta(days = 1)
+    
+    if onemonthagodate.weekday() == 5:
+        onemonthagodate -= relativedelta(days = 1)    
+    elif onemonthagodate.weekday() == 6:
+        onemonthagodate + relativedelta(days = 1)
+    
+
+    osmaxtriplemomentum = {
+       "sixmonthsagoprice": pricesix,
+        "sixmonthsagodate": sixmonthsagodate, 
+        "threemonthsagoprice": pricethree,
+        "threemonthsagodate":threemonthsagodate, 
+        "onemonthagoprice": priceone,
+        "onemonthagodate": onemonthagodate
+    }
+
+    for i in range(0, tltcolumnsnumber):
+        if data['tlt']['Date'][i] == sixmonthsagodate:
+            pricesix = data['spy']['Close'][i]
+
+        if data['tlt']['Date'][i] == threemonthsagodate:
+            pricethree = data['spy']['Close'][i]
+
+        if data['tlt']['Date'][i] == onemonthagodate:
+            priceone = data['spy']['Close'][i]
+
+
+
+    #TLT
+    sixmonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 6)
+    threemonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 3)
+    onemonthagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 1)
+
+    if sixmonthsagodate.weekday() == 5:
+        sixmonthsagodate -= relativedelta(days = 1)    
+    elif sixmonthsagodate.weekday() == 6:
+        sixmonthsagodate + relativedelta(days = 1)
+    
+    if threemonthsagodate.weekday() == 5:
+        threemonthsagodate -= relativedelta(days = 1)    
+    elif threemonthsagodate.weekday() == 6:
+        threemonthsagodate + relativedelta(days = 1)
+    
+    if onemonthagodate.weekday() == 5:
+        onemonthagodate -= relativedelta(days = 1)    
+    elif onemonthagodate.weekday() == 6:
+        onemonthagodate + relativedelta(days = 1)
+    
+
+    tlttriplemomentum = {
+        "sixmonthsagoprice": pricesix,
+        "sixmonthsagodate": sixmonthsagodate, 
+        "threemonthsagoprice": pricethree,
+        "threemonthsagodate":threemonthsagodate, 
+        "onemonthagoprice": priceone,
+        "onemonthagodate": onemonthagodate
+    }
+
+
+    etfstrmom = {
+        "spy":spytriplemomentum,
+        "vss":vsstriplemomentum,
+        "scz":scztriplemomentum,
+        "osmax":osmaxtriplemomentum,
+        "tlt":tlttriplemomentum,
+    }
+    etfstrmom = pd.DataFrame(etfstrmom)
+    etfstrmom.to_excel("triplemomentumetfs.xlsx", sheet_name="ETFS_Triple_Momentum")
+
 
 def DownloadData():
     finaldate = datetime.today()    
     yearbackdate = (finaldate - timedelta(days=365)).strftime('%Y-%m-%d')
-    sixmonthsbackdate = (finaldate - relativedelta(months = 6)).strftime('%Y-%m-%d')
-    threemonthsbackdate = (finaldate - relativedelta(months = 3)).strftime('%Y-%m-%d')
-    monthbackdate = (finaldate - relativedelta(months = 1)).strftime('%Y-%m-%d')
-    #TODO --> Save six, three and one month data in excel and retrieve it
     finaldate = finaldate.strftime('%Y-%m-%d')
     fds = str(finaldate)
     ids = str(yearbackdate)
@@ -53,23 +292,6 @@ def DownloadData():
         "tlt": tlt
     }
     SaveFiles(data)
-
-
-def ReadFiles():
-    spy = pd.read_excel("spy.xlsx")
-    vss = pd.read_excel("vss.xlsx")
-    scz = pd.read_excel("scz.xlsx")
-    osmax = pd.read_excel("osmax.xlsx")
-    tlt = pd.read_excel("tlt.xlsx")
-
-    data = {
-        "spy": spy,
-        "vss": vss,
-        "scz": scz,
-        "osmax": osmax,
-        "tlt": tlt
-    }
-    return data
 
 
 def GetReturn(initialprice, finalprice):
@@ -301,7 +523,7 @@ def PerformanceList():
     initialprice = data['tlt']['Close'][0]
     finalprice = data['tlt']['Close'][tltcolumnsnumber - 1]
     result = round(GetReturn(initialprice, finalprice), 2)
-    
+
     sixmonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 6)
     threemonthsagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 3)
     onemonthagodate = data['tlt']['Date'][tltcolumnsnumber - 1] - relativedelta(months = 1)
