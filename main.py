@@ -30,6 +30,10 @@ def ReadFiles():
     }
     return data
 
+def ReadTripleMomentum():
+    etfstrmom = pd.read_excel("triplemomentumetfs.xlsx")
+    return etfstrmom
+
 def SaveFiles(dataframes):
     spy = dataframes["spy"]
     vss =  dataframes["vss"]
